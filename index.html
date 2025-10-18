@@ -3,135 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎬 XYZ Cinema - Order from Your Seat 🍿</title>
+  <title>🎬 XYZ Cinema - Order from Seat</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <style>
     body {
-      background: radial-gradient(circle at top, #0b0b0b 0%, #000 100%);
+      background: #000;
       color: #fff;
       font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
     }
     .cinema-header {
-      background: linear-gradient(90deg, #8B0000, #ff0000, #ff4d4d);
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      background: linear-gradient(90deg, #b71c1c, #f44336);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
     }
     .item-card {
-      background: rgba(20,20,20,0.9);
+      background: #111;
       border: 1px solid #222;
       border-radius: 1rem;
-      transition: all 0.25s ease-in-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
+      transition: all 0.2s ease;
     }
     .item-card:hover {
-      transform: translateY(-4px) scale(1.03);
-      border-color: #ff4d4d;
-      box-shadow: 0 0 15px rgba(255,0,0,0.18);
+      transform: scale(1.05);
+      border-color: #f44336;
     }
     .btn {
       background: #e50914;
       color: white;
       font-weight: 600;
-      transition: background 0.3s, transform 0.15s;
+      transition: background 0.3s;
     }
     .btn:hover {
-      background: #ff2626;
-      transform: scale(1.03);
+      background: #ff3333;
     }
     .cinema-footer {
       text-align: center;
       font-size: 0.85rem;
       padding: 1rem 0;
-      color: #ccc;
+      color: #aaa;
     }
 
-    .item-emoji {
-      width: 84px;
-      height: 84px;
-      display: grid;
-      place-items: center;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(0,0,0,0.25);
-      font-size: 2.6rem;
-      line-height: 1;
-      margin-top: 6px;
-    }
-
-    @media (min-width: 640px) {
-      .item-emoji { width: 96px; height: 96px; font-size: 3rem; }
-    }
-
-    #cartBtn {
-      animation: bounce 2s infinite ease-in-out;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    /* --- SWEETALERT CUSTOMIZATION --- */
+    /* 🧾 Smooth SweetAlert2 mobile UI */
     .swal2-popup {
       border-radius: 1rem !important;
-      background: #111 !important;
+      background: #1a1a1a !important;
       color: #fff !important;
       width: 90% !important;
-      max-width: 400px !important;
-      box-shadow: 0 0 25px rgba(255,0,0,0.25);
-      backdrop-filter: blur(8px);
-      animation: fadeIn 0.3s ease-out;
-    }
-    @keyframes fadeIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .swal2-title {
-      font-size: 1.3rem !important;
-      color: #ff4d4d !important;
+      max-width: 380px !important;
     }
     .swal2-input {
-      background: #222 !important;
+      background: #000 !important;
       color: #fff !important;
       border: 1px solid #444 !important;
-      border-radius: 0.75rem !important;
-      padding: 0.8rem !important;
-      width: 100% !important;
-      font-size: 1rem !important;
-      margin-bottom: 0.6rem !important;
-    }
-    .swal2-input::placeholder {
-      color: #aaa !important;
-    }
-    .swal2-confirm {
-      background: #e50914 !important;
-      border-radius: 0.75rem !important;
-      font-weight: 600 !important;
-      font-size: 1rem !important;
-      padding: 0.75rem 1.5rem !important;
-    }
-    .swal2-confirm:hover {
-      background: #ff2626 !important;
+      border-radius: 0.5rem !important;
+      padding: 0.75rem !important;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
   <!-- HEADER -->
-  <header class="cinema-header text-center py-5 text-3xl font-extrabold tracking-wide">
-    🎥 XYZ CINEMA ORDERS 🍿  
-    <div class="text-sm font-normal opacity-90 mt-1">
-      Sit back, relax, and order straight from your seat! 🎟️
-    </div>
+  <header class="cinema-header text-center py-4 text-2xl font-bold tracking-wide">
+    🎥 XYZ CINEMA ORDERS
+    <div class="text-sm font-normal opacity-90">Enjoy your movie & order from your seat 🍿</div>
   </header>
 
-  <!-- MENU GRID -->
-  <main id="menu" class="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4"></main>
+  <!-- MENU ITEMS -->
+  <main id="menu" class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4"></main>
 
   <!-- CART BUTTON -->
   <button id="cartBtn" class="fixed bottom-4 right-4 bg-red-600 text-white px-6 py-3 rounded-full shadow-lg text-lg font-semibold flex items-center space-x-2">
@@ -139,12 +76,12 @@
     <span>Cart (<span id="cartCount">0</span>)</span>
   </button>
 
-  <!-- FOOTER -->
   <footer class="cinema-footer mt-auto">
-    © 2025 XYZ Cinema 🎬 | Designed for comfort & cravings 🍔🥤
+    © 2025 XYZ Cinema | Designed for comfort 🎬
   </footer>
 
   <script>
+    // MENU DATA (with emojis only)
     const menuItems = [
       { id: 1, emoji: "🍿", name: "Classic Popcorn", price: 150 },
       { id: 2, emoji: "🧀", name: "Cheese Popcorn", price: 180 },
@@ -156,7 +93,7 @@
       { id: 8, emoji: "🍫", name: "Chocolate Bar", price: 90 }
     ];
 
-    const cart = [];
+    let cart = [];
     const menuDiv = document.getElementById("menu");
     const cartBtn = document.getElementById("cartBtn");
     const cartCount = document.getElementById("cartCount");
@@ -166,76 +103,91 @@
       const card = document.createElement("div");
       card.className = "item-card p-4 text-center";
       card.innerHTML = `
-        <div class="item-emoji" role="img" aria-label="${item.name}">${item.emoji}</div>
-        <h3 class="text-lg font-semibold mt-1">${item.emoji} ${item.name}</h3>
-        <p class="text-gray-400 mb-2">💰 ₹${item.price}</p>
-        <button class="btn px-3 py-1 rounded" onclick="addToCart(${item.id})">➕ Add to Cart</button>
+        <div class="text-6xl mb-2">${item.emoji}</div>
+        <h3 class="text-lg font-semibold">${item.name}</h3>
+        <p class="text-gray-400 mb-2">₹${item.price}</p>
+        <button class="btn px-3 py-1 rounded" onclick="addToCart(${item.id})">➕ Add</button>
       `;
       menuDiv.appendChild(card);
     });
 
+    // Add to cart
     function addToCart(id) {
       const item = menuItems.find(i => i.id === id);
       cart.push(item);
-      cartCount.textContent = cart.length;
-
+      updateCartCount();
       Swal.fire({
-        title: "✅ Added!",
-        text: `${item.emoji} ${item.name} added to your cart 🎁`,
+        title: "🛍️ Added!",
+        text: `${item.name} added to your cart.`,
         icon: "success",
-        timer: 1000,
-        showConfirmButton: false
+        timer: 900,
+        showConfirmButton: false,
+        background: "#1a1a1a",
+        color: "#fff"
       });
     }
 
+    function updateCartCount() {
+      cartCount.textContent = cart.length;
+    }
+
+    // Get seat from URL
     const urlParams = new URLSearchParams(window.location.search);
     const seatFromQR = urlParams.get("seat") || "";
 
+    // View Cart + Checkout
     cartBtn.onclick = async () => {
       if (cart.length === 0) {
-        Swal.fire("🛒 Empty Cart!", "Please add some items first 🍔", "info");
+        Swal.fire("🛒 Empty Cart!", "Please add some items first.", "info");
         return;
       }
 
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      const itemList = cart.map(i => `• ${i.emoji} ${i.name} (₹${i.price})`).join("<br>");
+
       const { value: formValues } = await Swal.fire({
-        title: "🧾 Enter Your Details",
+        title: "📝 Enter Your Details",
         html: `
-          <input id="swal-name" class="swal2-input" placeholder="👤 Your Name" autofocus>
-          <input id="swal-seat" class="swal2-input" placeholder="💺 Seat Number (e.g., A5)" value="${seatFromQR}">
+          <div style="text-align:left;">
+            <label style="font-size:0.9rem;">👤 Name</label>
+            <input id="swal-name" class="swal2-input" placeholder="Your Name">
+            <label style="font-size:0.9rem;">💺 Seat Number</label>
+            <input id="swal-seat" class="swal2-input" placeholder="e.g. A5" value="${seatFromQR}">
+            <div style="margin-top:0.8rem; font-size:0.9rem;">🧾 <b>Items:</b><br>${itemList}</div>
+            <div style="margin-top:0.5rem;">💰 <b>Total:</b> ₹${total}</div>
+          </div>
         `,
-        confirmButtonText: "📲 Proceed to WhatsApp",
-        allowOutsideClick: true,
-        allowEscapeKey: true,
         focusConfirm: false,
-        preConfirm: () => ({
-          name: document.getElementById("swal-name").value.trim(),
-          seat: document.getElementById("swal-seat").value.trim()
-        })
+        confirmButtonText: "✅ Send Order via WhatsApp",
+        showCancelButton: true,
+        cancelButtonText: "❌ Cancel",
+        preConfirm: () => {
+          return {
+            name: document.getElementById("swal-name").value,
+            seat: document.getElementById("swal-seat").value
+          }
+        }
       });
 
       if (!formValues?.name || !formValues?.seat) {
-        Swal.fire("⚠️ Missing Info", "Please fill in both name and seat number 📝", "warning");
+        Swal.fire("⚠️ Missing Info", "Please fill both name and seat number.", "warning");
         return;
       }
 
-      const orderList = cart.map(i => `• ${i.emoji} ${i.name}`).join("%0A");
-      const total = cart.reduce((sum, i) => sum + i.price, 0);
-
       const message = 
-        `🎬 *XYZ Cinema Order*%0A%0A` +
+        `🎬 *XYZ Cinema Order*%0A` +
         `👤 Name: ${formValues.name}%0A` +
-        `💺 Seat: ${formValues.seat}%0A%0A` +
-        `🍴 *Your Order:*%0A${orderList}%0A%0A` +
-        `💰 *Total:* ₹${total}%0A%0A` +
-        `📍 Please deliver to seat ${formValues.seat}.%0A` +
-        `🍿 Thank you & enjoy your movie! 🎥`;
+        `💺 Seat: ${formValues.seat}%0A` +
+        `🧾 Items:%0A${cart.map(i => `• ${i.emoji} ${i.name} (₹${i.price})`).join('%0A')}` +
+        `%0A💰 Total: ₹${total}%0A%0A📍 Please deliver to seat ${formValues.seat}.`;
 
       const whatsappURL = `https://wa.me/918078618395?text=${message}`;
       window.open(whatsappURL, "_blank");
 
-      Swal.fire("🎉 Order Sent!", "Your order has been sent via WhatsApp 💬", "success");
-      cart.length = 0;
-      cartCount.textContent = 0;
+      Swal.fire("✅ Order Sent!", "Your order has been sent via WhatsApp. Enjoy your show! 🍿", "success");
+
+      cart = [];
+      updateCartCount();
     };
   </script>
 </body>
