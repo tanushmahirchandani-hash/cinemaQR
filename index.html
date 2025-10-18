@@ -70,21 +70,25 @@
       background: #0d0d0d;
     }
 
-    /* SWEETALERT CUSTOM STYLES */
+    /* SWEETALERT CUSTOM STYLES (less zoomed popup) */
     .swal2-popup {
       border-radius: 1rem !important;
       background: #1a1a1a !important;
       color: #fff !important;
-      width: 90% !important;
-      max-width: 380px !important;
+      width: 85% !important;
+      max-width: 360px !important;
+      transform: scale(0.9) !important; /* 👈 less zoomed */
       box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      padding: 1rem !important;
     }
+
     .swal2-input {
       background: #000 !important;
       color: #fff !important;
       border: 1px solid #444 !important;
       border-radius: 0.5rem !important;
-      padding: 0.75rem !important;
+      padding: 0.6rem !important;
+      font-size: 0.9rem !important;
     }
   </style>
 </head>
@@ -177,12 +181,12 @@
       const { value: formValues } = await Swal.fire({
         title: "📝 Enter Your Details",
         html: `
-          <div style="text-align:left;">
-            <label style="font-size:0.9rem;">👤 Name</label>
+          <div style="text-align:left; font-size:0.9rem;">
+            <label>👤 Name</label>
             <input id="swal-name" class="swal2-input" placeholder="Your Name">
-            <label style="font-size:0.9rem;">💺 Seat Number</label>
+            <label>💺 Seat Number</label>
             <input id="swal-seat" class="swal2-input" placeholder="e.g. A5" value="${seatFromQR}">
-            <div style="margin-top:0.8rem; font-size:0.9rem;">🧾 <b>Items:</b><br>${itemList}</div>
+            <div style="margin-top:0.8rem;">🧾 <b>Items:</b><br>${itemList}</div>
             <div style="margin-top:0.5rem;">💰 <b>Total:</b> ₹${total}</div>
           </div>
         `,
