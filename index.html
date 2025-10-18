@@ -51,7 +51,6 @@
       color: #ccc;
     }
 
-    /* emoji badge */
     .item-emoji {
       width: 84px;
       height: 84px;
@@ -60,23 +59,64 @@
       border-radius: 999px;
       background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
       box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(0,0,0,0.25);
-      font-size: 2.5rem; /* big emoji */
+      font-size: 2.6rem;
       line-height: 1;
       margin-top: 6px;
     }
 
-    /* slightly larger on bigger screens */
     @media (min-width: 640px) {
       .item-emoji { width: 96px; height: 96px; font-size: 3rem; }
     }
 
-    /* Floating Cart Button Animation */
     #cartBtn {
       animation: bounce 2s infinite ease-in-out;
     }
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
+    }
+
+    /* --- SWEETALERT CUSTOMIZATION --- */
+    .swal2-popup {
+      border-radius: 1rem !important;
+      background: #111 !important;
+      color: #fff !important;
+      width: 90% !important;
+      max-width: 400px !important;
+      box-shadow: 0 0 25px rgba(255,0,0,0.25);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .swal2-title {
+      font-size: 1.3rem !important;
+      color: #ff4d4d !important;
+    }
+    .swal2-input {
+      background: #222 !important;
+      color: #fff !important;
+      border: 1px solid #444 !important;
+      border-radius: 0.75rem !important;
+      padding: 0.8rem !important;
+      width: 100% !important;
+      font-size: 1rem !important;
+      margin-bottom: 0.6rem !important;
+    }
+    .swal2-input::placeholder {
+      color: #aaa !important;
+    }
+    .swal2-confirm {
+      background: #e50914 !important;
+      border-radius: 0.75rem !important;
+      font-weight: 600 !important;
+      font-size: 1rem !important;
+      padding: 0.75rem 1.5rem !important;
+    }
+    .swal2-confirm:hover {
+      background: #ff2626 !important;
     }
   </style>
 </head>
@@ -105,7 +145,6 @@
   </footer>
 
   <script>
-    // MENU DATA with explicit emoji field
     const menuItems = [
       { id: 1, emoji: "🍿", name: "Classic Popcorn", price: 150 },
       { id: 2, emoji: "🧀", name: "Cheese Popcorn", price: 180 },
@@ -122,7 +161,7 @@
     const cartBtn = document.getElementById("cartBtn");
     const cartCount = document.getElementById("cartCount");
 
-    // Render menu cards with big emoji badges
+    // Render menu
     menuItems.forEach(item => {
       const card = document.createElement("div");
       card.className = "item-card p-4 text-center";
@@ -135,7 +174,6 @@
       menuDiv.appendChild(card);
     });
 
-    // Add to Cart Function
     function addToCart(id) {
       const item = menuItems.find(i => i.id === id);
       cart.push(item);
@@ -150,11 +188,9 @@
       });
     }
 
-    // Extract seat number from QR or URL
     const urlParams = new URLSearchParams(window.location.search);
     const seatFromQR = urlParams.get("seat") || "";
 
-    // View Cart + Checkout
     cartBtn.onclick = async () => {
       if (cart.length === 0) {
         Swal.fire("🛒 Empty Cart!", "Please add some items first 🍔", "info");
@@ -164,17 +200,17 @@
       const { value: formValues } = await Swal.fire({
         title: "🧾 Enter Your Details",
         html: `
-          <input id="swal-name" class="swal2-input" placeholder="👤 Your Name">
+          <input id="swal-name" class="swal2-input" placeholder="👤 Your Name" autofocus>
           <input id="swal-seat" class="swal2-input" placeholder="💺 Seat Number (e.g., A5)" value="${seatFromQR}">
         `,
         confirmButtonText: "📲 Proceed to WhatsApp",
+        allowOutsideClick: true,
+        allowEscapeKey: true,
         focusConfirm: false,
-        preConfirm: () => {
-          return {
-            name: document.getElementById("swal-name").value,
-            seat: document.getElementById("swal-seat").value
-          }
-        }
+        preConfirm: () => ({
+          name: document.getElementById("swal-name").value.trim(),
+          seat: document.getElementById("swal-seat").value.trim()
+        })
       });
 
       if (!formValues?.name || !formValues?.seat) {
