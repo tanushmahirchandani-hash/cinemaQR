@@ -24,7 +24,7 @@
       transition: all 0.2s ease;
     }
     .item-card:hover {
-      transform: scale(1.03); /* Reduced scale for smoother feel */
+      transform: scale(1.03);
       border-color: #f44336;
     }
     .btn {
@@ -43,24 +43,24 @@
       color: #aaa;
     }
 
-    /* 🧾 Smooth SweetAlert2 mobile UI (Improved) */
+    /* 🧾 SweetAlert2 PopUp Styles */
     .swal2-popup {
       border-radius: 1rem !important;
       background: #1a1a1a !important;
       color: #fff !important;
-      width: 95% !important; /* Slightly wider for better mobile fit */
-      max-width: 400px !important; /* Increased max width */
+      width: 95% !important;
+      max-width: 400px !important;
       padding-bottom: 0.5rem !important;
     }
     .swal2-title {
       font-size: 1.5rem !important;
     }
     .swal2-input {
-      background: #0d0d0d !important; /* Darker input background */
+      background: #0d0d0d !important;
       color: #fff !important;
       border: 1px solid #333 !important;
       border-radius: 0.5rem !important;
-      padding: 0.9rem !important; /* More padding for easier tapping */
+      padding: 0.9rem !important;
       margin-bottom: 0.75rem !important;
       font-size: 1rem !important;
     }
@@ -71,16 +71,33 @@
       background-color: #e50914 !important;
     }
 
-    /* Custom styles for the order summary list in the popup */
+    /* Custom styles for the improved order summary */
     .order-summary {
       background: #0d0d0d;
       padding: 1rem;
       border-radius: 0.75rem;
       margin-top: 1rem;
-      border: 1px solid #222;
+      border: 2px solid #333; /* Slightly thicker border for depth */
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for 3D effect */
     }
-    .order-summary div {
-      margin-bottom: 0.25rem;
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #222;
+      font-size: 0.95rem;
+    }
+    .summary-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .summary-total {
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+      border-top: 2px solid #e50914; /* Strong red line for the total */
+      font-size: 1.1rem;
     }
   </style>
 </head>
@@ -103,15 +120,15 @@
   </footer>
 
   <script>
-    // MENU DATA (with emojis only)
+    // MENU DATA (Updated with more 3D-looking emojis)
     const menuItems = [
       { id: 1, emoji: "🍿", name: "Classic Popcorn", price: 150 },
-      { id: 2, emoji: "🧀", name: "Cheese Popcorn", price: 180 },
+      { id: 2, emoji: "🧈", name: "Butter Popcorn", price: 180 }, // Updated emoji
       { id: 3, emoji: "🥤", name: "Coke (Cold Drink)", price: 120 },
       { id: 4, emoji: "🌮", name: "Nachos with Cheese", price: 200 },
-      { id: 5, emoji: "🌭", name: "Hot Dog", price: 170 },
-      { id: 6, emoji: "🍦", name: "Ice Cream Cup", price: 100 },
-      { id: 7, emoji: "🍟", name: "French Fries", price: 120 },
+      { id: 5, emoji: "🌭", name: "Gourmet Hot Dog", price: 170 }, // Updated name
+      { id: 6, emoji: "🍨", name: "Premium Ice Cream", price: 100 }, // Updated emoji
+      { id: 7, emoji: "🍟", name: "Golden French Fries", price: 120 }, // Updated name
       { id: 8, emoji: "🍫", name: "Chocolate Bar", price: 90 }
     ];
 
@@ -146,9 +163,9 @@
         showConfirmButton: false,
         background: "#1a1a1a",
         color: "#fff",
-        position: 'top-end', // Pop up from top right for less interruption
-        toast: true, // Use toast style
-        width: 'auto', // Auto width for toast
+        position: 'top-end',
+        toast: true,
+        width: 'auto',
         padding: '0.75rem',
       });
     }
@@ -157,10 +174,7 @@
       cartCount.textContent = cart.length;
     }
 
-    /**
-     * Groups cart items by ID to show quantity in the checkout summary.
-     * @returns {Array<Object>} Grouped items.
-     */
+    // Groups cart items by ID to show quantity in the checkout summary.
     function getGroupedCartItems() {
       const grouped = cart.reduce((acc, item) => {
         const existing = acc.find(i => i.id === item.id);
@@ -189,10 +203,12 @@
       const total = cart.reduce((sum, i) => sum + i.price, 0);
       const groupedItems = getGroupedCartItems();
 
+      // IMPROVED ORDER SUMMARY HTML
       const itemListHTML = groupedItems.map(i =>
-        `<div class="flex justify-between">
-          <span>${i.emoji} ${i.name} (${i.quantity}x)</span>
-          <span class="font-semibold">₹${i.subtotal}</span>
+        `<div class="summary-item">
+          <span>${i.emoji} ${i.name}</span>
+          <span class="text-gray-400 mr-2">${i.quantity} x ₹${i.price}</span>
+          <span class="font-semibold text-white">₹${i.subtotal}</span>
         </div>`
       ).join("");
 
@@ -207,10 +223,12 @@
             <input id="swal-seat" class="swal2-input" placeholder="e.g. A5" value="${seatFromQR}" style="margin-top:0;">
 
             <div class="order-summary">
-              <h3 style="font-size:1.1rem; font-weight:700; border-bottom:1px solid #333; padding-bottom:0.5rem; margin-bottom:0.75rem;">🧾 Order Summary</h3>
+              <h3 style="font-size:1.1rem; font-weight:700; color:#f44336; padding-bottom:0.5rem; margin-bottom:0.75rem; text-align:center;">
+                Your Concession Receipt
+              </h3>
               ${itemListHTML}
-              <div class="flex justify-between pt-3 mt-3 font-bold border-t border-red-600">
-                <span>💰 TOTAL:</span>
+              <div class="summary-total flex justify-between font-bold">
+                <span>GRAND TOTAL:</span>
                 <span class="text-red-400">₹${total}</span>
               </div>
             </div>
@@ -248,7 +266,6 @@
           `💰 *TOTAL: ₹${total}*%0A%0A` +
           `📍 Please deliver to seat *${formValues.seat}*. Thank you!`;
 
-        // Replace with your actual WhatsApp number (The original number is kept)
         const whatsappURL = `https://wa.me/918078618395?text=${message}`;
         window.open(whatsappURL, "_blank");
 
